@@ -27,9 +27,6 @@ RUN npm install -g serve
 # Copier le build
 COPY --from=builder /app/dist .
 
-# Optionnel : si tu as un fichier de config pour serve
-# COPY serve.json .
-
 # Exposer le port interne (ici on met 3011)
 EXPOSE 3011
 
