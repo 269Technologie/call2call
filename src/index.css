@@ -1,13 +1,194 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Brand colors from logo */
+    --brand: 218 100% 31%;
+    --brand-50: 218 100% 95%;
+    --brand-100: 218 100% 90%;
+    --brand-200: 218 100% 80%;
+    --brand-300: 218 100% 70%;
+    --brand-400: 218 100% 50%;
+    --brand-500: 218 100% 31%;
+    --brand-600: 218 100% 25%;
+    --brand-700: 218 100% 20%;
+    --brand-800: 218 100% 15%;
+    --brand-900: 218 100% 10%;
+    --brand-foreground: 0 0% 100%;
+    
+    /* Accent color (red from logo) */
+    --accent: 355 78% 57%;
+    --accent-50: 355 78% 95%;
+    --accent-100: 355 78% 90%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Surfaces */
+    --background: 0 0% 100%;
+    --foreground: 218 20% 15%;
+    
+    --surface: 0 0% 98%;
+    --surface-2: 218 20% 96%;
+    --surface-foreground: 218 20% 15%;
+    
+    /* UI Elements */
+    --card: 0 0% 100%;
+    --card-foreground: 218 20% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 20% 15%;
+    
+    --primary: 218 100% 31%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 218 20% 96%;
+    --secondary-foreground: 218 100% 31%;
+    
+    --muted: 218 20% 96%;
+    --muted-foreground: 218 10% 46%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 218 20% 90%;
+    --line: 218 15% 88%;
+    --input: 218 20% 90%;
+    --ring: 218 100% 31%;
+    
+    --radius: 0.75rem;
+    
+    /* Gradients */
+    --gradient-brand: linear-gradient(135deg, hsl(218 100% 31%) 0%, hsl(218 100% 50%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(355 78% 57%) 0%, hsl(355 78% 70%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(218 20% 98%) 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+    --shadow-lg: 0 8px 30px rgb(0 0 0 / 0.06);
+    --shadow-xl: 0 12px 40px rgb(0 0 0 / 0.10);
+    --shadow-brand: 0 8px 30px hsl(218 100% 31% / 0.15);
+    
+    /* Animations */
+    --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Container utilities */
+  .container-px {
+    @apply mx-auto max-w-[1200px] px-4 md:px-6;
+  }
+  
+  .section-y {
+    @apply py-12 md:py-20;
+  }
+  
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-medium transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground shadow-md hover:shadow-lg;
+  }
+  
+  .btn-accent {
+    @apply btn bg-accent text-accent-foreground shadow-md hover:shadow-lg;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-primary/30 bg-white text-primary hover:bg-primary/5;
+  }
+  
+  .btn-ghost {
+    @apply btn text-foreground hover:bg-surface;
+  }
+  
+  /* Card variants */
+  .card {
+    @apply relative rounded-2xl border border-border/60 bg-card/60 backdrop-blur-md p-6 transition-all duration-300;
+    box-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
+  }
+  
+  .card:hover {
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.10);
+  }
+  
+  .card-glass {
+    @apply card bg-white/40 backdrop-blur-xl border-white/60;
+  }
+  
+  /* Badges & chips */
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+  }
+  
+  .badge-brand {
+    @apply badge bg-brand/10 text-brand;
+  }
+  
+  .badge-accent {
+    @apply badge bg-accent/10 text-accent;
+  }
+  
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1.5 text-sm font-medium;
+  }
+  
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm;
+  }
+  
+  /* Stats */
+  .stat {
+    @apply text-center;
+  }
+  
+  .stat-value {
+    @apply text-4xl font-bold text-primary md:text-5xl;
+  }
+  
+  .stat-label {
+    @apply mt-2 text-sm text-muted-foreground;
+  }
+  
+  /* Eyebrow text */
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-wider text-primary;
+  }
+  
+  /* Hover effects */
+  .hover-lift {
+    @apply transition-transform duration-200 hover:scale-[1.02];
+  }
+  
+  .hover-glow {
+    @apply transition-shadow duration-300;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 40px hsl(var(--brand) / 0.2);
+  }
 }
