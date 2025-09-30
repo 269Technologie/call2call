@@ -7,26 +7,31 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
-# Copier le reste du code
+# Copier le code source
 COPY . .
 
-# Nettoyer d'anciens builds
-RUN rm -rf dist tsconfig.tsbuildinfo
+# 🔥 Nettoyage des caches avant compilation
+RUN rm -rf node_modules/.vite dist tsconfig.tsbuildinfo
 
 # Build production Vite/React
 RUN npm run build
 
-# Étape 2 : Nginx interne sur port 3011
-FROM nginx:alpine
+# Étape 2 : Serveur Node pour servir le build
+FROM node:20-alpine
 
-# Copier les fichiers construits dans Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Copier le nginx.conf personnalisé
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Installer le serveur statique
+RUN npm install -g serve
 
-# Exposer le port interne 3011
+# Copier le build
+COPY --from=builder /app/dist .
+
+# Optionnel : si tu as un fichier de config pour serve
+# COPY serve.json .
+
+# Exposer le port interne (ici on met 3011)
 EXPOSE 3011
 
-# Lancer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Lancer serve sur le port 3011
+CMD ["serve", "-s", ".", "-l", "3011"]
