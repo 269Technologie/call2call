@@ -135,6 +135,9 @@ export const Footer = () => {
             <p>
               Téléphonie & enregistrements fournis par Ringover ou partenaire équivalent.
             </p>
+            <p>
+              © 2025 Déployé et conçu par <a href="https://soiby.fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SOIBY</a>
+            </p>
           </div>
         </div>
       </div>
