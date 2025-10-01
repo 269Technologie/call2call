@@ -4,7 +4,7 @@ import { Phone, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import botImg from "@/assets/bot.png";
 import helpImg from "@/assets/help.png";
 import talkImg from "@/assets/talk.png";
-import affairesImg from "@/assets/affaires.jpg";
+import affairesImg from "@/assets/affaires.png";
 import clientImg from "@/assets/client.png";
 
 export const Hero = () => {
@@ -181,7 +181,7 @@ export const Hero = () => {
 
   return (
     <section 
-      className="relative overflow-hidden bg-gradient-to-b from-brand-50/30 to-white section-y select-none"
+      className="relative overflow-hidden bg-gradient-to-b from-blue-50/30 to-white section-y select-none"
       onWheel={handleWheel}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -191,15 +191,17 @@ export const Hero = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background neural grid comme avant */}
+      {/* Background neural grid avec rouge ajouté */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="neural-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-              <circle cx="50" cy="50" r="2" fill="currentColor" className="text-brand" />
-              <line x1="50" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" className="text-brand/30" />
-              <line x1="50" y1="50" x2="75" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-brand/30" />
-              <line x1="50" y1="50" x2="25" y2="0" stroke="currentColor" strokeWidth="0.5" className="text-brand/30" />
+              <circle cx="50" cy="50" r="2" fill="currentColor" className="text-blue-500" />
+              <circle cx="25" cy="25" r="1" fill="currentColor" className="text-red-500" />
+              <circle cx="75" cy="75" r="1" fill="currentColor" className="text-red-500" />
+              <line x1="50" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+              <line x1="50" y1="50" x2="75" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+              <line x1="50" y1="50" x2="25" y2="0" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#neural-grid)" />
@@ -222,9 +224,10 @@ export const Hero = () => {
                   <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
                     {/* Content Column */}
                     <div className="space-y-6 order-1 lg:order-1">
-                      {/* <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-50 px-4 py-2">
-                        <Phone className="h-4 w-4 text-brand" />
-                        <span className="text-sm font-medium text-brand">IA téléphonique</span>
+                      {/* Badge avec rouge */}
+                      {/* <div className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2">
+                        <Phone className="h-4 w-4 text-red-500" />
+                        <span className="text-sm font-medium text-red-500">IA téléphonique</span>
                       </div> */}
                       
                       <div>
@@ -253,8 +256,8 @@ export const Hero = () => {
                         {slide.badge && (
                           <div className="absolute -right-2 top-4 rounded-xl border border-border bg-white p-3 shadow-lg">
                             <div className="flex items-center gap-2">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-                                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
+                                <CheckCircle2 className="h-4 w-4 text-red-500" />
                               </div>
                               <div>
                                 <div className="text-sm font-semibold">Appel traité</div>
@@ -265,11 +268,11 @@ export const Hero = () => {
                         )}
                       </div>
 
-                      {/* CTA Button */}
+                      {/* CTA Button avec rouge */}
                       <div className="flex flex-col gap-3 sm:flex-row order-3 lg:order-2">
                         <Link 
                           to={slide.ctaLink} 
-                          className="btn-primary transform transition-transform hover:scale-105 active:scale-95"
+                          className="btn-primary bg-red-500 hover:bg-red-600 border-red-500 transform transition-transform hover:scale-105 active:scale-95"
                         >
                           {slide.cta}
                         </Link>
@@ -290,8 +293,8 @@ export const Hero = () => {
                       {slide.badge && (
                         <div className="absolute -right-4 top-10 rounded-xl border border-border bg-white p-3 shadow-lg">
                           <div className="flex items-center gap-2">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                              <CheckCircle2 className="h-5 w-5 text-green-600" />
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                              <CheckCircle2 className="h-5 w-5 text-red-500" />
                             </div>
                             <div>
                               <div className="text-sm font-semibold">Appel traité</div>
@@ -307,23 +310,25 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Stats Section - Fixe en dessous du carousel */}
-          <div className="flex items-center justify-center gap-6 mt-8 pt-8 border-t border-border">
+          {/* Stats Section avec rouge */}
+          <div className="flex items-center justify-center gap-8 md:gap-12 lg:gap-20 mt-12 pt-12 border-t border-border">
             {statsData.map((stat, index) => (
               <div key={stat.label} className="text-center">
-                <div className="text-2xl font-bold text-primary">
+                <div className="text-xl md:text-4xl lg:text-45xl font-bold text-blue-500 mb-2">
                   <AnimatedCounter value={stat.value} />
                 </div>
-                <div className="text-xs text-muted-foreground">{stat.label}</div>
+                <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wide">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Navigation */}
+          {/* Navigation avec rouge */}
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prevSlide}
-              className="p-2 rounded-full border border-border hover:bg-brand-50 transition-colors"
+              className="p-2 rounded-full border border-border hover:bg-red-50 transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -334,7 +339,7 @@ export const Hero = () => {
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                    index === getActiveDotIndex() ? "bg-brand scale-125" : "bg-border hover:bg-brand/50"
+                    index === getActiveDotIndex() ? "bg-red-500 scale-125" : "bg-border hover:bg-red-500/50"
                   }`}
                 />
               ))}
@@ -342,7 +347,7 @@ export const Hero = () => {
 
             <button
               onClick={nextSlide}
-              className="p-2 rounded-full border border-border hover:bg-brand-50 transition-colors"
+              className="p-2 rounded-full border border-border hover:bg-red-50 transition-colors"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -356,7 +361,7 @@ export const Hero = () => {
 const AnimatedCounter = ({ value }: { value: number }) => {
   const [count, setCount] = useState(0);
   const duration = 2000; 
-  const frameRate = 1000 / 60; 
+  const frameRate = 1000 / 60;
   const totalFrames = Math.round(duration / frameRate);
   const increment = value / totalFrames;
   const hasAnimated = useRef(false);

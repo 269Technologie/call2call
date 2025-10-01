@@ -18,28 +18,28 @@ export const Footer = () => {
             <div className="flex gap-4">
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-500 transition-colors hover:bg-blue-500 hover:text-white"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-500 transition-colors hover:bg-blue-500 hover:text-white"
                 aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-500 transition-colors hover:bg-blue-500 hover:text-white"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-500 transition-colors hover:bg-blue-500 hover:text-white"
                 aria-label="Email"
               >
                 <Mail className="h-5 w-5" />
@@ -52,22 +52,22 @@ export const Footer = () => {
             <h3 className="mb-4 font-semibold">Produit</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/fonctionnalites" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/fonctionnalites" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Fonctionnalités
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/pricing" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Tarifs
                 </Link>
               </li>
               <li>
-                <Link to="/comment-ca-marche" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/comment-ca-marche" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Comment ça marche
                 </Link>
               </li>
               <li>
-                <Link to="/portail" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/portail" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Portail client
                 </Link>
               </li>
@@ -79,24 +79,24 @@ export const Footer = () => {
             <h3 className="mb-4 font-semibold">Entreprise</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/support" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/support" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Support
                 </Link>
               </li>
               <li>
-                <Link to="/securite-rgpd" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/securite-rgpd" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Sécurité & RGPD
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/qui-sommes-nous" className="text-muted-foreground transition-colors hover:text-blue-500">
                   À propos
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
-                  Contact
-                </a>
+                <Link to="/blog" className="text-muted-foreground transition-colors hover:text-blue-500">
+                  Blog
+                </Link>
               </li>
             </ul>
           </div>
@@ -106,22 +106,22 @@ export const Footer = () => {
             <h3 className="mb-4 font-semibold">Juridique</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/legal/mentions" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/legal/mentions" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Mentions légales
                 </Link>
               </li>
               <li>
-                <Link to="/legal/confidentialite" className="text-muted-foreground transition-colors hover:text-primary">
+                <Link to="/legal/confidentialite" className="text-muted-foreground transition-colors hover:text-blue-500">
                   Confidentialité
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
+                <a href="#" className="text-muted-foreground transition-colors hover:text-blue-500">
                   CGV
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground transition-colors hover:text-primary">
+                <a href="#" className="text-muted-foreground transition-colors hover:text-blue-500">
                   CGU
                 </a>
               </li>
@@ -136,7 +136,7 @@ export const Footer = () => {
               Téléphonie & enregistrements fournis par Ringover ou partenaire équivalent.
             </p>
             <p>
-              © 2025 Déployé et conçu par <a href="https://soiby.fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SOIBY</a>
+              © 2025 Déployé et conçu par <a href="https://soiby.fr" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:text-red-600 hover:underline font-medium">SOIBY</a>
             </p>
           </div>
         </div>

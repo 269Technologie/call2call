@@ -13,6 +13,8 @@ import Ecommerce from '@/pages/Ecommerce';
 import MentionsLegales from '@/pages/MentionsLegales';
 import Confidentialite from '@/pages/Confidentialite';
 import NotFound from '@/pages/NotFound';
+import QuiSommesNous from './pages/QuiSommesNous';
+import Blog from '@/pages/Blog';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path="/securite-rgpd" element={<SecuriteRGPD />} />
           <Route path="/portail" element={<Portail />} />
           <Route path="/ecommerce" element={<Ecommerce />} />
+          <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/legal/mentions" element={<MentionsLegales />} />
           <Route path="/legal/confidentialite" element={<Confidentialite />} />
           <Route path="*" element={<NotFound />} />

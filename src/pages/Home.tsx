@@ -97,12 +97,12 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="section-y bg-gradient-to-br from-brand-50 to-accent-50">
+        <section className="section-y bg-gradient-to-br from-blue-50 to-blue-50/50">
           <div className="container-px">
             <div className="card max-w-3xl mx-auto text-center">
-              <div className="pill inline-flex mb-6 shadow-md">
-                <Zap className="h-4 w-4 text-brand" />
-                <span className="font-medium text-brand">Partenariat Ringover</span>
+              <div className="pill inline-flex mb-6 shadow-md bg-blue-100 text-blue-500 border-blue-200">
+                <Zap className="h-4 w-4 text-blue-500" />
+                <span className="font-medium text-blue-500">Partenariat Ringover</span>
               </div>
               <h2 className="text-3xl font-bold text-foreground mb-4">
                 Téléphonie fournie par Ringover
@@ -119,7 +119,7 @@ const Home = () => {
             <div className="card max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-brand to-brand-600 shadow-brand">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/25">
                     <Shield className="h-8 w-8 text-white" />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div className="flex-shrink-0">
-                  <span className="badge-brand font-semibold">RGPD</span>
+                  <span className="badge bg-blue-100 text-blue-500 border-blue-200 font-semibold">RGPD</span>
                 </div>
               </div>
             </div>

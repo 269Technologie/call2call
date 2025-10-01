@@ -23,7 +23,7 @@ export const FAQ = ({ items }: FAQProps) => {
           value={`item-${index}`}
           className="rounded-xl border border-border bg-white px-6 shadow-sm"
         >
-          <AccordionTrigger className="text-left font-semibold hover:no-underline">
+          <AccordionTrigger className="text-left font-semibold hover:no-underline hover:text-blue-500">
             {item.question}
           </AccordionTrigger>
           <AccordionContent className="text-muted-foreground">
