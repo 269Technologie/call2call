@@ -13,6 +13,7 @@ import {
   MessageSquare,
   BarChart3,
 } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const Portail = () => {
   const mockCalls = [
@@ -50,9 +51,9 @@ const Portail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Portail client - Call2Call" />
       <Header />
       <main>
-        {/* Hero Section */}
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">
           <div className="container-px">
             <div className="mx-auto max-w-3xl text-center">
@@ -68,11 +69,9 @@ const Portail = () => {
           </div>
         </section>
 
-        {/* Dashboard Preview */}
         <section className="section-y">
           <div className="container-px">
             <div className="mb-8 rounded-xl border border-border bg-white p-4 shadow-lg">
-              {/* Dashboard Header */}
               <div className="mb-6 flex items-center justify-between border-b border-border pb-4">
                 <div>
                   <h2 className="text-2xl font-bold">Vue d'ensemble</h2>
@@ -86,7 +85,6 @@ const Portail = () => {
                 </button>
               </div>
 
-              {/* Stats Grid */}
               <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="card">
                   <div className="mb-2 flex items-center gap-2">
@@ -142,7 +140,6 @@ const Portail = () => {
                 </div>
               </div>
 
-              {/* Calls Journal */}
               <div className="card">
                 <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
                   <MessageSquare className="h-5 w-5" />
@@ -206,7 +203,6 @@ const Portail = () => {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="mb-12 text-center">
@@ -292,7 +288,6 @@ const Portail = () => {
           </div>
         </section>
 
-        {/* Configuration Preview */}
         <section className="section-y">
           <div className="container-px">
             <div className="mx-auto max-w-4xl">

@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { CTABanner } from "@/components/CTABanner";
 import { Check, Sparkles, Info } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from '@/components/SEO';
 
 const Pricing = () => {
   const plans = [
@@ -98,9 +99,9 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Tarifs - Call2Call" />
       <Header />
       <main>
-        {/* Hero Section */}
         <section className="section-y bg-gradient-to-b from-brand-50/50 to-background">
           <div className="container-px">
             <div className="max-w-3xl mx-auto text-center">
@@ -118,7 +119,6 @@ const Pricing = () => {
           </div>
         </section>
 
-        {/* Pricing Cards */}
         <section className="section-y">
           <div className="container-px">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
@@ -133,7 +133,6 @@ const Pricing = () => {
               ))}
             </div>
 
-            {/* Info Banner */}
             <div className="card max-w-4xl mx-auto bg-surface-2/50">
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
@@ -154,7 +153,6 @@ const Pricing = () => {
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="max-w-3xl mx-auto">

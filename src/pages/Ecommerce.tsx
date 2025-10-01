@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Check, CreditCard, User, Lock } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const Ecommerce = () => {
   const [selectedPlan, setSelectedPlan] = useState("Standard");
@@ -17,6 +18,11 @@ const Ecommerce = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Souscription - Call2Call"
+        description="Choisissez votre formule Call2Call et démarrez votre essai gratuit de 14 jours. Configuration simple et paiement sécurisé."
+        path="ecommerce"
+      />
       <Header />
       <main className="section-y">
         <div className="container-px">

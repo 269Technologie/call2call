@@ -9,6 +9,7 @@ import {
   Bot,
   BarChart3,
 } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const CommentCaMarche = () => {
   const steps = [
@@ -46,6 +47,7 @@ const CommentCaMarche = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Comment ça marche - Call2Call" />
       <Header />
       <main>
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">

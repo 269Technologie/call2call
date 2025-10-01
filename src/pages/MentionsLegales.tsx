@@ -1,9 +1,11 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from '@/components/SEO';
 
 const MentionsLegales = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Mentions légales - Call2Call" />
       <Header />
       <main className="section-y">
         <div className="container-px">

@@ -11,13 +11,14 @@ import {
   CheckCircle2,
   Key,
 } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const SecuriteRGPD = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Sécurité & RGPD - Call2Call" />
       <Header />
       <main>
-        {/* Hero Section */}
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">
           <div className="container-px">
             <div className="mx-auto max-w-3xl text-center">
@@ -33,7 +34,6 @@ const SecuriteRGPD = () => {
           </div>
         </section>
 
-        {/* Key Security Features */}
         <section className="section-y">
           <div className="container-px">
             <div className="mb-12 text-center">
@@ -89,7 +89,6 @@ const SecuriteRGPD = () => {
           </div>
         </section>
 
-        {/* RGPD Compliance */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="mx-auto max-w-4xl">
@@ -173,7 +172,6 @@ const SecuriteRGPD = () => {
           </div>
         </section>
 
-        {/* Access Control */}
         <section className="section-y">
           <div className="container-px">
             <div className="mx-auto max-w-4xl">
@@ -263,7 +261,6 @@ const SecuriteRGPD = () => {
           </div>
         </section>
 
-        {/* Security Best Practices */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="mx-auto max-w-4xl">

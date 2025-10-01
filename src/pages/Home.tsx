@@ -13,6 +13,7 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const Home = () => {
   const features = [
@@ -57,12 +58,12 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO />
       <Header />
       
       <main>
         <Hero />
 
-        {/* Stats Bar */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -76,7 +77,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="section-y">
           <div className="container-px">
             <div className="text-center mb-16">
@@ -97,7 +97,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Integration Section */}
         <section className="section-y bg-gradient-to-br from-brand-50 to-accent-50">
           <div className="container-px">
             <div className="card max-w-3xl mx-auto text-center">
@@ -115,7 +114,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Trust Section */}
         <section className="section-y">
           <div className="container-px">
             <div className="card max-w-4xl mx-auto">

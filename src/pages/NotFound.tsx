@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Home, Search, ArrowLeft } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from '@/components/SEO';
 
 const NotFound = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Page non trouvée - Call2Call" />
       <Header />
       <main className="section-y">
         <div className="container-px">

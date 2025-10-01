@@ -16,6 +16,7 @@ import {
   Shield,
   Sparkles,
 } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const Fonctionnalites = () => {
   const coreFeatures = [
@@ -86,9 +87,9 @@ const Fonctionnalites = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Fonctionnalités - Call2Call" />
       <Header />
       <main>
-        {/* Hero Section */}
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">
           <div className="container-px">
             <div className="mx-auto max-w-3xl text-center">
@@ -104,7 +105,6 @@ const Fonctionnalites = () => {
           </div>
         </section>
 
-        {/* Core Features */}
         <section className="section-y">
           <div className="container-px">
             <div className="mb-12">
@@ -124,7 +124,6 @@ const Fonctionnalites = () => {
           </div>
         </section>
 
-        {/* Advanced Features */}
         <section className="section-y bg-surface">
           <div className="container-px">
             <div className="mb-12">
@@ -144,7 +143,6 @@ const Fonctionnalites = () => {
           </div>
         </section>
 
-        {/* Integration Info */}
         <section className="section-y">
           <div className="container-px">
             <div className="card-glass mx-auto max-w-4xl p-8 text-center">

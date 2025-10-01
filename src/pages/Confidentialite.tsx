@@ -1,9 +1,16 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 const Confidentialite = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Politique de confidentialité - Call2Call"
+        description="Découvrez comment Call2Call protège vos données personnelles. Notre politique de confidentialité conforme au RGPD détaille la collecte, l'utilisation et la sécurité de vos informations."
+        path="confidentialite"
+      />
+      
       <Header />
       <main className="section-y">
         <div className="container-px">

@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { FAQ } from "@/components/FAQ";
 import { CTABanner } from "@/components/CTABanner";
 import { Mail, MessageCircle, Book, HelpCircle } from "lucide-react";
+import { SEO } from '@/components/SEO';
 
 const Support = () => {
   const faqItems = [
@@ -60,9 +61,9 @@ const Support = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Support - Call2Call" />
       <Header />
       <main>
-        {/* Hero Section */}
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">
           <div className="container-px">
             <div className="mx-auto max-w-3xl text-center">
@@ -78,7 +79,6 @@ const Support = () => {
           </div>
         </section>
 
-        {/* Support Options */}
         <section className="section-y">
           <div className="container-px">
             <div className="mb-12 grid gap-6 md:grid-cols-3">
@@ -127,7 +127,6 @@ const Support = () => {
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section id="faq" className="section-y bg-surface">
           <div className="container-px">
             <div className="mb-12 text-center">
@@ -146,7 +145,6 @@ const Support = () => {
           </div>
         </section>
 
-        {/* Contact Form */}
         <section id="contact" className="section-y">
           <div className="container-px">
             <div className="mx-auto max-w-2xl">
