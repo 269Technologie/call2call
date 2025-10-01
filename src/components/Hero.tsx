@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Phone, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
-import heroPhone from "@/assets/hero-phone.jpg";
 import botImg from "@/assets/bot.png";
 import helpImg from "@/assets/help.png";
 import talkImg from "@/assets/talk.png";
@@ -16,6 +15,12 @@ export const Hero = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [startX, setStartX] = useState(0);
+
+  const statsData = [
+    { value: 500, label: "Entreprises" },
+    { value: 50000, label: "Appels" },
+    { value: 99.5, label: "SLA" }
+  ];
 
   const slidesData = [
     {
@@ -186,6 +191,7 @@ export const Hero = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Background neural grid comme avant */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -214,25 +220,53 @@ export const Hero = () => {
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0 px-4">
                   <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
-                    <div className="space-y-6">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-50 px-4 py-2">
+                    {/* Content Column */}
+                    <div className="space-y-6 order-1 lg:order-1">
+                      {/* <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-50 px-4 py-2">
                         <Phone className="h-4 w-4 text-brand" />
                         <span className="text-sm font-medium text-brand">IA téléphonique</span>
-                      </div>
+                      </div> */}
                       
                       <div>
-                        <h1 className="mb-4 text-4xl font-bold leading-tight text-foreground md:text-5xl">
+                        <h1 className="mb-4 text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">
                           {slide.title}
                         </h1>
                         
                         {slide.subtitle && (
-                          <p className="text-lg text-muted-foreground">
+                          <p className="text-lg text-muted-foreground mb-6">
                             {slide.subtitle}
                           </p>
                         )}
                       </div>
 
-                      <div className="flex flex-col gap-3 sm:flex-row">
+                      {/* Image - Mobile */}
+                      <div className="lg:hidden relative flex justify-center order-2">
+                        <div className="max-w-md w-full">
+                          <img 
+                            src={slide.image} 
+                            alt={slide.title} 
+                            className="w-full h-auto max-h-64 object-contain select-none pointer-events-none"
+                            draggable="false"
+                          />
+                        </div>
+                        
+                        {slide.badge && (
+                          <div className="absolute -right-2 top-4 rounded-xl border border-border bg-white p-3 shadow-lg">
+                            <div className="flex items-center gap-2">
+                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
+                                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                              </div>
+                              <div>
+                                <div className="text-sm font-semibold">Appel traité</div>
+                                <div className="text-xs text-muted-foreground">RDV automatique</div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CTA Button */}
+                      <div className="flex flex-col gap-3 sm:flex-row order-3 lg:order-2">
                         <Link 
                           to={slide.ctaLink} 
                           className="btn-primary transform transition-transform hover:scale-105 active:scale-95"
@@ -240,30 +274,14 @@ export const Hero = () => {
                           {slide.cta}
                         </Link>
                       </div>
-
-                      <div className="flex items-center gap-6">
-                        <div>
-                          <div className="text-2xl font-bold text-primary">500+</div>
-                          <div className="text-xs text-muted-foreground">Entreprises</div>
-                        </div>
-                        <div className="h-8 w-px bg-border"></div>
-                        <div>
-                          <div className="text-2xl font-bold text-primary">50K+</div>
-                          <div className="text-xs text-muted-foreground">Appels</div>
-                        </div>
-                        <div className="h-8 w-px bg-border"></div>
-                        <div>
-                          <div className="text-2xl font-bold text-primary">99.5%</div>
-                          <div className="text-xs text-muted-foreground">SLA</div>
-                        </div>
-                      </div>
                     </div>
 
-                    <div className="relative flex justify-center">
+                    {/* Image - Desktop */}
+                    <div className="hidden lg:flex relative justify-center order-2 lg:order-4">
                       <div className="max-w-md w-full">
                         <img 
                           src={slide.image} 
-                          alt="Interface Call2Call avec IA conversationnelle" 
+                          alt={slide.title} 
                           className="w-full h-auto max-h-80 object-contain select-none pointer-events-none"
                           draggable="false"
                         />
@@ -289,6 +307,19 @@ export const Hero = () => {
             </div>
           </div>
 
+          {/* Stats Section - Fixe en dessous du carousel */}
+          <div className="flex items-center justify-center gap-6 mt-8 pt-8 border-t border-border">
+            {statsData.map((stat, index) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl font-bold text-primary">
+                  <AnimatedCounter value={stat.value} />
+                </div>
+                <div className="text-xs text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation */}
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prevSlide}
@@ -302,7 +333,7 @@ export const Hero = () => {
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                  className={`h-2 w-2 rounded-full transition-all duration-300 ${
                     index === getActiveDotIndex() ? "bg-brand scale-125" : "bg-border hover:bg-brand/50"
                   }`}
                 />
@@ -320,4 +351,49 @@ export const Hero = () => {
       </div>
     </section>
   );
+};
+
+const AnimatedCounter = ({ value }: { value: number }) => {
+  const [count, setCount] = useState(0);
+  const duration = 2000; 
+  const frameRate = 1000 / 60; 
+  const totalFrames = Math.round(duration / frameRate);
+  const increment = value / totalFrames;
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (!hasAnimated.current) {
+      let currentCount = 0;
+      let frame = 0;
+
+      const counter = setInterval(() => {
+        frame++;
+        currentCount += increment;
+        
+        if (frame >= totalFrames) {
+          setCount(value);
+          clearInterval(counter);
+          hasAnimated.current = true;
+        } else {
+          setCount(Math.floor(currentCount));
+        }
+      }, frameRate);
+
+      return () => clearInterval(counter);
+    } else {
+      setCount(value);
+    }
+  }, [value, increment, totalFrames, frameRate]);
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(0)}K+`;
+    }
+    if (num % 1 !== 0) {
+      return `${num.toFixed(1)}%`;
+    }
+    return `${num}+`;
+  };
+
+  return <span>{formatNumber(count)}</span>;
 };
