@@ -6,7 +6,7 @@ import botImg from "@/assets/bot.png";
 import helpImg from "@/assets/help.png";
 import talkImg from "@/assets/talk.png";
 import affairesImg from "@/assets/affaires.jpg";
-import clientImg from "@/assets/client.jpg";
+import clientImg from "@/assets/client.png";
 
 export const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -259,13 +259,15 @@ export const Hero = () => {
                       </div>
                     </div>
 
-                    <div className="relative">
-                      <img 
-                        src={slide.image} 
-                        alt="Interface Call2Call avec IA conversationnelle" 
-                        className="w-full select-none pointer-events-none"
-                        draggable="false"
-                      />
+                    <div className="relative flex justify-center">
+                      <div className="max-w-md w-full">
+                        <img 
+                          src={slide.image} 
+                          alt="Interface Call2Call avec IA conversationnelle" 
+                          className="w-full h-auto max-h-80 object-contain select-none pointer-events-none"
+                          draggable="false"
+                        />
+                      </div>
                       
                       {slide.badge && (
                         <div className="absolute -right-4 top-10 rounded-xl border border-border bg-white p-3 shadow-lg">
