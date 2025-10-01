@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Check, CreditCard, User, Lock } from "lucide-react";
-import { PricingCard } from "@/components/PricingCard";
 
 const Ecommerce = () => {
   const [selectedPlan, setSelectedPlan] = useState("Standard");
@@ -22,7 +21,6 @@ const Ecommerce = () => {
       <main className="section-y">
         <div className="container-px">
           <div className="mx-auto max-w-6xl">
-            {/* Progress Steps */}
             <div className="mb-12">
               <div className="flex items-center justify-center gap-4">
                 {[
@@ -58,7 +56,6 @@ const Ecommerce = () => {
               </div>
             </div>
 
-            {/* Step 1: Plan Selection */}
             {step === 1 && (
               <div className="animate-fade-in">
                 <div className="mb-8 text-center">
@@ -75,11 +72,81 @@ const Ecommerce = () => {
                     <div
                       key={plan.name}
                       onClick={() => setSelectedPlan(plan.name)}
-                      className={`cursor-pointer ${
-                        selectedPlan === plan.name ? "ring-2 ring-brand rounded-2xl" : ""
+                      className={`cursor-pointer transition-all duration-300 relative ${
+                        selectedPlan === plan.name 
+                          ? "ring-4 ring-brand ring-opacity-50 rounded-2xl" 
+                          : ""
                       }`}
                     >
-                      <PricingCard {...plan} />
+                      <div className={`card relative hover-lift h-full flex flex-col ${
+                        selectedPlan === plan.name ? "border-2 border-brand" : ""
+                      }`}>
+                        {plan.popular && (
+                          <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                            <span className="badge-brand shadow-md whitespace-nowrap text-sm px-3 py-1">
+                              Le plus populaire
+                            </span>
+                          </div>
+                        )}
+                        
+                        <div className={`mb-6 pt-2 ${plan.popular ? "mt-2" : ""}`}>
+                          <h3 className="text-2xl font-bold text-foreground mb-3">{plan.name}</h3>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-5xl font-bold text-primary">{plan.price}€</span>
+                            <span className="text-muted-foreground">/mois HT</span>
+                          </div>
+                        </div>
+
+                        <div className="mb-6 space-y-2">
+                          <div className="chip">
+                            <span className="font-semibold text-foreground">{plan.calls}</span>
+                            <span className="text-muted-foreground">
+                              appel{plan.calls > 1 ? "s" : ""} simultané{plan.calls > 1 ? "s" : ""}
+                            </span>
+                          </div>
+                          <div className="chip">
+                            <span className="font-semibold text-foreground">{plan.languages}</span>
+                            <span className="text-muted-foreground">
+                              langue{plan.languages > 1 ? "s" : ""}
+                            </span>
+                          </div>
+                        </div>
+
+                        <ul className="mb-6 space-y-3 py-4 border-t border-border flex-grow">
+                          <li className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-brand" />
+                            </div>
+                            <span className="text-sm text-foreground">Essai gratuit 14 jours</span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-brand" />
+                            </div>
+                            <span className="text-sm text-foreground">Support par ticket</span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-brand" />
+                            </div>
+                            <span className="text-sm text-foreground">Montée en charge simple</span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-brand" />
+                            </div>
+                            <span className="text-sm text-foreground">Annulation en 1 clic</span>
+                          </li>
+                        </ul>
+
+                        <div className={`text-center px-6 py-3 rounded-xl font-medium transition-all ${
+                          selectedPlan === plan.name 
+                            ? "btn-primary" 
+                            : "btn-outline"
+                        }`}>
+                          {selectedPlan === plan.name ? "✓ Sélectionné" : "Choisir"}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -95,7 +162,6 @@ const Ecommerce = () => {
               </div>
             )}
 
-            {/* Step 2: Number Selection */}
             {step === 2 && (
               <div className="animate-fade-in">
                 <div className="mb-8 text-center">
@@ -164,7 +230,6 @@ const Ecommerce = () => {
               </div>
             )}
 
-            {/* Step 3: Account Creation */}
             {step === 3 && (
               <div className="animate-fade-in">
                 <div className="mb-8 text-center">
@@ -263,7 +328,6 @@ const Ecommerce = () => {
               </div>
             )}
 
-            {/* Step 4: Payment */}
             {step === 4 && (
               <div className="animate-fade-in">
                 <div className="mb-8 text-center">
@@ -275,7 +339,6 @@ const Ecommerce = () => {
                 </div>
 
                 <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
-                  {/* Payment Form */}
                   <div className="card">
                     <h2 className="mb-6 flex items-center gap-2 text-xl font-bold">
                       <CreditCard className="h-5 w-5" />
@@ -326,7 +389,6 @@ const Ecommerce = () => {
                     </form>
                   </div>
 
-                  {/* Order Summary */}
                   <div>
                     <div className="card">
                       <h2 className="mb-6 text-xl font-bold">
