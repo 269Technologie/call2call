@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    triggers {
+        githubPush()   // se déclenche automatiquement à chaque push GitHub
+    }
     environment {
         REGISTRY = "localhost:5151"
         REGISTRY_IMAGE = "localhost:5151/call2call"
