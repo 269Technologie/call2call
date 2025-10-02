@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        githubPush()   // se déclenche automatiquement à chaque push GitHub
+        githubPush()   
     }
     environment {
         REGISTRY = "localhost:5151"
