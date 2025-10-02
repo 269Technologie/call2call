@@ -7,8 +7,8 @@ pipeline {
         REGISTRY_CREDENTIALS = "registry-credentials"
         DOCKER_IMAGE = ''
         VERSION = ''
-        HOST_PORT = "8033"      // Nouveau port hôte libre
-        CONTAINER_PORT = "3011" // Port interne du conteneur
+        HOST_PORT = "8033"      
+        CONTAINER_PORT = "3011" 
     }
 
     stages {
