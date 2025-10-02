@@ -2,7 +2,6 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Installer les dépendances
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
