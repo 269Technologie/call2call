@@ -15,6 +15,8 @@ import Confidentialite from '@/pages/Confidentialite';
 import NotFound from '@/pages/NotFound';
 import QuiSommesNous from './pages/QuiSommesNous';
 import Blog from '@/pages/Blog';
+import FAQ from '@/pages/FAQ';
+import Langues from '@/pages/Langues';
 
 function App() {
   return (
@@ -33,7 +35,9 @@ function App() {
           <Route path="/ecommerce" element={<Ecommerce />} />
           <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/legal/mentions" element={<MentionsLegales />} />
+          <Route path="/langues" element={<Langues />} />
           <Route path="/legal/confidentialite" element={<Confidentialite />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

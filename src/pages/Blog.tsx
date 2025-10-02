@@ -3,8 +3,11 @@ import { Footer } from "@/components/Footer";
 import { CTABanner } from "@/components/CTABanner";
 import { Calendar, User, ArrowRight, MessageCircle } from "lucide-react";
 import { SEO } from '@/components/SEO';
+import { useState } from "react";
 
 const Blog = () => {
+  const [selectedCategory, setSelectedCategory] = useState("Tous les articles");
+
   const articles = [
     {
       id: 1,
@@ -78,6 +81,10 @@ const Blog = () => {
     "Fonctionnalités"
   ];
 
+  const filteredArticles = selectedCategory === "Tous les articles" 
+    ? articles 
+    : articles.filter(article => article.category === selectedCategory);
+
   return (
     <div className="min-h-screen bg-background">
       <SEO title="Blog & Actualités - Call2Call" />
@@ -103,10 +110,11 @@ const Blog = () => {
               {categories.map((category, index) => (
                 <button
                   key={index}
-                  className={`chip ${
-                    index === 0 
-                      ? "bg-blue-500 text-white border-blue-500" 
-                      : "bg-white text-muted-foreground border-border hover:border-blue-200"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`chip transition-all duration-200 ${
+                    selectedCategory === category
+                      ? "bg-blue-500 text-white border-blue-500 shadow-md"
+                      : "bg-white text-muted-foreground border-border hover:border-blue-200 hover:text-blue-500"
                   }`}
                 >
                   {category}
@@ -115,7 +123,7 @@ const Blog = () => {
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
+              {filteredArticles.map((article) => (
                 <article key={article.id} className="card hover-lift group">
                   <div className="mb-4 aspect-video w-full overflow-hidden rounded-xl bg-blue-50">
                     <div className="flex h-full items-center justify-center">
@@ -158,6 +166,16 @@ const Blog = () => {
                 </article>
               ))}
             </div>
+
+            {filteredArticles.length === 0 && (
+              <div className="text-center py-12">
+                <MessageCircle className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+                <h3 className="text-xl font-semibold mb-2">Aucun article trouvé</h3>
+                <p className="text-muted-foreground">
+                  Aucun article ne correspond à la catégorie "{selectedCategory}".
+                </p>
+              </div>
+            )}
 
             <div className="mt-12 text-center">
               <button className="btn-outline">

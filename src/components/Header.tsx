@@ -1,13 +1,37 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/logo-call2call.png";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleMouseEnter = (dropdown: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setOpenDropdown(dropdown);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 300);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-white/80 backdrop-blur-lg">
@@ -19,27 +43,31 @@ export const Header = () => {
 
           <div className="hidden items-center gap-8 md:flex">
             <Link
-              to="/pricing"
-              className={`text-sm font-medium transition-colors hover:text-red-500 ${
-                isActive("/pricing") ? "text-red-500" : "text-foreground"
-              }`}
-            >
-              Tarifs & Nos services
-            </Link>
-            <Link
               to="/qui-sommes-nous"
-              className={`text-sm font-medium transition-colors hover:text-red-500 ${
-                isActive("/qui-sommes-nous") ? "text-red-500" : "text-foreground"
-              }`}
+              className={`text-sm font-medium transition-colors hover:text-red-500 ${isActive("/qui-sommes-nous") ? "text-red-500" : "text-foreground"
+                }`}
             >
               Qui sommes-nous
             </Link>
-            <div className="group relative">
+            <Link
+              to="/pricing"
+              className={`text-sm font-medium transition-colors hover:text-red-500 ${isActive("/pricing") ? "text-red-500" : "text-foreground"
+                }`}
+            >
+              Tarifs & Nos services
+            </Link>
+            <div
+              className="group relative"
+              onMouseEnter={() => handleMouseEnter("ressources")}
+              onMouseLeave={handleMouseLeave}
+              ref={dropdownRef}
+            >
               <button className="flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-red-500">
                 Ressources
                 <ChevronDown className="h-4 w-4" />
               </button>
-              <div className="absolute left-0 mt-2 hidden w-56 rounded-xl border border-border bg-white py-2 shadow-lg group-hover:block">
+              <div className={`absolute left-0 mt-2 w-56 rounded-xl border border-border bg-white py-2 shadow-lg transition-all duration-200 ${openDropdown === "ressources" ? "block opacity-100" : "hidden opacity-0"
+                }`}>
                 <Link
                   to="/fonctionnalites"
                   className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
@@ -51,6 +79,18 @@ export const Header = () => {
                   className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
                 >
                   Comment ça marche
+                </Link>
+                <Link
+                  to="/langues"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
+                >
+                  Langues
+                </Link>
+                <Link
+                  to="/faq"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
+                >
+                  FAQ
                 </Link>
                 <Link
                   to="/support"
@@ -117,8 +157,7 @@ export const Header = () => {
               >
                 Qui sommes-nous
               </Link>
-              
-              {/* Section Ressources avec sous-menu pour mobile */}
+
               <div className="border-t border-border pt-4">
                 <div className="text-sm font-semibold text-gray-500 mb-2">Ressources</div>
                 <div className="flex flex-col gap-3 pl-4">
@@ -135,6 +174,20 @@ export const Header = () => {
                     onClick={() => setIsOpen(false)}
                   >
                     Comment ça marche
+                  </Link>
+                  <Link
+                    to="/langues"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Langues
+                  </Link>
+                  <Link
+                    to="/faq"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    FAQ
                   </Link>
                   <Link
                     to="/support"
@@ -168,7 +221,7 @@ export const Header = () => {
               >
                 Espace client
               </Link>
-              
+
               <div className="flex flex-col gap-2 pt-4">
                 <Link to="/ecommerce" className="btn-outline w-full">
                   Se connecter
