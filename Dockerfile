@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
-# Copier le code source
 COPY . .
 
 # 🔥 Nettoyage des caches avant compilation
