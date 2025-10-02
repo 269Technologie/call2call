@@ -58,7 +58,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link to="/pricing" className="text-muted-foreground transition-colors hover:text-blue-500">
-                  Tarifs
+                  Tarifs & Nos services
                 </Link>
               </li>
               <li>
@@ -68,7 +68,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link to="/portail" className="text-muted-foreground transition-colors hover:text-blue-500">
-                  Portail client
+                  Espace client
                 </Link>
               </li>
             </ul>

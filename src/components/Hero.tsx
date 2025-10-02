@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Phone, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import botImg from "@/assets/bot.png";
 import helpImg from "@/assets/help.png";
 import talkImg from "@/assets/talk.png";
@@ -15,11 +15,12 @@ export const Hero = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [startX, setStartX] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const statsData = [
-    { value: 500, label: "Entreprises" },
-    { value: 50000, label: "Appels" },
-    { value: 99.5, label: "SLA" }
+    { value: 500, label: "Entreprises", suffix: "+" },
+    { value: 50000, label: "Appels", suffix: "+" },
+    { value: 99.5, label: "Satisfaction", suffix: "%" }
   ];
 
   const slidesData = [
@@ -36,7 +37,7 @@ export const Hero = () => {
       subtitle: "Je décroche, j'oriente, j'informe, je note… pendant que vous respirez enfin.",
       cta: "Découvrir mes formules",
       ctaLink: "/portail",
-      badge: true,
+      badge: false,
       image: helpImg
     },
     {
@@ -52,7 +53,7 @@ export const Hero = () => {
       subtitle: "Partenaire téléphonie • RGPD • Sécurité",
       cta: "Découvrir mes formules",
       ctaLink: "/portail",
-      badge: true,
+      badge: false,
       image: affairesImg
     },
     {
@@ -89,10 +90,17 @@ export const Hero = () => {
     setCurrentSlide(index + 1);
   };
 
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying);
+  };
+
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
+    let interval: NodeJS.Timeout;
+    if (isAutoPlaying) {
+      interval = setInterval(nextSlide, 5000);
+    }
     return () => clearInterval(interval);
-  }, [nextSlide]);
+  }, [nextSlide, isAutoPlaying]);
 
   const handleTransitionEnd = () => {
     setIsTransitioning(false);
@@ -181,7 +189,7 @@ export const Hero = () => {
 
   return (
     <section 
-      className="relative overflow-hidden bg-gradient-to-b from-blue-50/30 to-white section-y select-none"
+      className="relative overflow-hidden bg-gradient-to-br from-red-50 via-white to-red-50/30 min-h-screen flex items-center justify-center"
       onWheel={handleWheel}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -191,28 +199,33 @@ export const Hero = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background neural grid avec rouge ajouté */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+      {/* Background avec motif rouge subtil */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="neural-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-              <circle cx="50" cy="50" r="2" fill="currentColor" className="text-blue-500" />
-              <circle cx="25" cy="25" r="1" fill="currentColor" className="text-red-500" />
-              <circle cx="75" cy="75" r="1" fill="currentColor" className="text-red-500" />
-              <line x1="50" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
-              <line x1="50" y1="50" x2="75" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
-              <line x1="50" y1="50" x2="25" y2="0" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+            <pattern id="red-grid" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="50" cy="50" r="1.5" fill="#dc2626" />
+              <circle cx="20" cy="20" r="1" fill="#dc2626" />
+              <circle cx="80" cy="80" r="1" fill="#dc2626" />
+              <line x1="50" y1="50" x2="100" y2="50" stroke="#dc2626" strokeWidth="0.5" opacity="0.3" />
+              <line x1="50" y1="50" x2="80" y2="100" stroke="#dc2626" strokeWidth="0.5" opacity="0.3" />
+              <line x1="50" y1="50" x2="20" y2="0" stroke="#dc2626" strokeWidth="0.5" opacity="0.3" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#neural-grid)" />
+          <rect width="100%" height="100%" fill="url(#red-grid)" />
         </svg>
       </div>
 
-      <div className="container-px relative">
+      {/* Éléments décoratifs */}
+      <div className="absolute top-10 left-10 w-20 h-20 bg-red-200/20 rounded-full blur-xl"></div>
+      <div className="absolute bottom-10 right-10 w-32 h-32 bg-red-300/10 rounded-full blur-2xl"></div>
+
+      <div className="container-px relative w-full max-w-7xl mx-auto">
         <div className="relative">
-          <div className="overflow-hidden">
+          {/* Contenu principal compact */}
+          <div className="overflow-hidden rounded-2xl">
             <div 
-              className={`flex ${!isDragging && isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+              className={`flex ${!isDragging && isTransitioning ? 'transition-transform duration-500 ease-out' : ''}`}
               style={{ 
                 transform: `translateX(calc(-${currentSlide * 100}% + ${dragOffset}px))`,
                 cursor: isDragging ? 'grabbing' : 'grab'
@@ -221,88 +234,84 @@ export const Hero = () => {
             >
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0 px-4">
-                  <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
+                  <div className="grid items-center gap-6 lg:gap-8 xl:gap-12 lg:grid-cols-2">
                     {/* Content Column */}
-                    <div className="space-y-6 order-1 lg:order-1">
-                      {/* Badge avec rouge */}
-                      {/* <div className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2">
-                        <Phone className="h-4 w-4 text-red-500" />
-                        <span className="text-sm font-medium text-red-500">IA téléphonique</span>
-                      </div> */}
-                      
-                      <div>
-                        <h1 className="mb-4 text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">
+                    <div className="space-y-4 lg:space-y-6 order-1 lg:order-1">
+                      {/* Titre et sous-titre */}
+                      <div className="space-y-4">
+                        <h1 className="text-3xl font-bold leading-tight text-gray-900 md:text-4xl lg:text-5xl xl:text-6xl">
                           {slide.title}
                         </h1>
                         
                         {slide.subtitle && (
-                          <p className="text-lg text-muted-foreground mb-6">
+                          <p className="text-lg text-gray-600 lg:text-xl xl:text-2xl leading-relaxed">
                             {slide.subtitle}
                           </p>
                         )}
                       </div>
 
                       {/* Image - Mobile */}
-                      <div className="lg:hidden relative flex justify-center order-2">
-                        <div className="max-w-md w-full">
+                      <div className="lg:hidden relative flex justify-center my-4">
+                        <div className="max-w-xs w-full">
                           <img 
                             src={slide.image} 
                             alt={slide.title} 
-                            className="w-full h-auto max-h-64 object-contain select-none pointer-events-none"
+                            className="w-full h-auto max-h-56 object-contain select-none pointer-events-none"
                             draggable="false"
                           />
                         </div>
                         
                         {slide.badge && (
-                          <div className="absolute -right-2 top-4 rounded-xl border border-border bg-white p-3 shadow-lg">
+                          <div className="absolute -right-2 top-4 rounded-xl border border-red-200 bg-white/90 backdrop-blur-sm p-3 shadow-lg">
                             <div className="flex items-center gap-2">
                               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
-                                <CheckCircle2 className="h-4 w-4 text-red-500" />
+                                <CheckCircle2 className="h-4 w-4 text-red-600" />
                               </div>
                               <div>
-                                <div className="text-sm font-semibold">Appel traité</div>
-                                <div className="text-xs text-muted-foreground">RDV automatique</div>
+                                <div className="text-sm font-semibold text-gray-900">Appel traité</div>
+                                <div className="text-xs text-gray-500">RDV automatique</div>
                               </div>
                             </div>
                           </div>
                         )}
                       </div>
 
-                      {/* CTA Button avec rouge */}
-                      <div className="flex flex-col gap-3 sm:flex-row order-3 lg:order-2">
+                      {/* CTA Buttons */}
+                      <div className="flex flex-col gap-3 sm:flex-row">
                         <Link 
                           to={slide.ctaLink} 
-                          className="btn-primary bg-red-500 hover:bg-red-600 border-red-500 transform transition-transform hover:scale-105 active:scale-95"
+                          className="btn-primary bg-red-600 hover:bg-red-700 border-red-600 text-white transform transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-center py-3 px-6 rounded-lg font-semibold"
                         >
                           {slide.cta}
                         </Link>
+                        
                       </div>
                     </div>
 
                     {/* Image - Desktop */}
-                    <div className="hidden lg:flex relative justify-center order-2 lg:order-4">
-                      <div className="max-w-md w-full">
+                    <div className="hidden lg:flex relative justify-center items-center order-2 lg:order-4">
+                      <div className="max-w-md xl:max-w-lg w-full relative">
                         <img 
                           src={slide.image} 
                           alt={slide.title} 
-                          className="w-full h-auto max-h-80 object-contain select-none pointer-events-none"
+                          className="w-full h-auto max-h-72 xl:max-h-80 object-contain select-none pointer-events-none"
                           draggable="false"
                         />
-                      </div>
-                      
-                      {slide.badge && (
-                        <div className="absolute -right-4 top-10 rounded-xl border border-border bg-white p-3 shadow-lg">
-                          <div className="flex items-center gap-2">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                              <CheckCircle2 className="h-5 w-5 text-red-500" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-semibold">Appel traité</div>
-                              <div className="text-xs text-muted-foreground">RDV automatique</div>
+                        
+                        {slide.badge && (
+                          <div className="absolute -right-4 xl:-right-6 top-8 rounded-xl border border-red-200 bg-white/90 backdrop-blur-sm p-4 shadow-xl">
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                                <CheckCircle2 className="h-5 w-5 text-red-600" />
+                              </div>
+                              <div>
+                                <div className="text-sm font-semibold text-gray-900">Appel traité</div>
+                                <div className="text-xs text-gray-500">RDV automatique</div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -310,47 +319,72 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Stats Section avec rouge */}
-          <div className="flex items-center justify-center gap-8 md:gap-12 lg:gap-20 mt-12 pt-12 border-t border-border">
+          {/* Stats Section FIXE - Ne change pas entre les slides */}
+          <div className="flex items-center justify-between gap-2 pt-6 border-t border-red-200/50 mt-6">
             {statsData.map((stat, index) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl md:text-4xl lg:text-45xl font-bold text-blue-500 mb-2">
+              <div key={stat.label} className="text-center flex-1">
+                <div className="text-xl md:text-2xl font-bold text-red-600 mb-1">
                   <AnimatedCounter value={stat.value} />
+                  {stat.suffix}
                 </div>
-                <div className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-wide">
+                <div className="text-xs font-medium text-gray-600 uppercase tracking-wider">
                   {stat.label}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Navigation avec rouge */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <button
-              onClick={prevSlide}
-              className="p-2 rounded-full border border-border hover:bg-red-50 transition-colors"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            
-            <div className="flex justify-center gap-2">
+          {/* Navigation et indicateurs - Positionnés en bas */}
+          <div className="flex items-center justify-between mt-6 lg:mt-8 px-2">
+            {/* Indicateur de slide actuel */}
+            <div className="text-sm text-gray-500 min-w-[60px]">
+              <span className="font-medium">{getActiveDotIndex() + 1}</span>
+              <span className="mx-1">/</span>
+              <span>{slidesData.length}</span>
+            </div>
+
+            {/* Navigation dots */}
+            <div className="flex justify-center gap-1 lg:gap-2">
               {slidesData.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                    index === getActiveDotIndex() ? "bg-red-500 scale-125" : "bg-border hover:bg-red-500/50"
+                  className={`h-1.5 w-6 lg:h-2 lg:w-8 rounded-full transition-all duration-300 ${
+                    index === getActiveDotIndex() 
+                      ? "bg-red-600 scale-110" 
+                      : "bg-red-200 hover:bg-red-300"
                   }`}
                 />
               ))}
             </div>
 
-            <button
-              onClick={nextSlide}
-              className="p-2 rounded-full border border-border hover:bg-red-50 transition-colors"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
+            {/* Contrôles de navigation - Icônes plus petites */}
+            <div className="flex items-center gap-1 min-w-[100px] justify-end">
+              <button
+                onClick={toggleAutoPlay}
+                className="p-1.5 rounded-full border border-red-200 bg-white hover:bg-red-50 transition-all shadow-sm hover:shadow-md"
+              >
+                {isAutoPlaying ? (
+                  <Pause className="h-3 w-3 text-red-600" />
+                ) : (
+                  <Play className="h-3 w-3 text-red-600" />
+                )}
+              </button>
+              
+              <button
+                onClick={prevSlide}
+                className="p-1.5 rounded-full border border-red-200 bg-white hover:bg-red-50 transition-all shadow-sm hover:shadow-md"
+              >
+                <ChevronLeft className="h-3 w-3 text-red-600" />
+              </button>
+
+              <button
+                onClick={nextSlide}
+                className="p-1.5 rounded-full border border-red-200 bg-white hover:bg-red-50 transition-all shadow-sm hover:shadow-md"
+              >
+                <ChevronRight className="h-3 w-3 text-red-600" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -392,12 +426,12 @@ const AnimatedCounter = ({ value }: { value: number }) => {
 
   const formatNumber = (num: number) => {
     if (num >= 1000) {
-      return `${(num / 1000).toFixed(0)}K+`;
+      return `${(num / 1000).toFixed(0)}K`;
     }
     if (num % 1 !== 0) {
-      return `${num.toFixed(1)}%`;
+      return `${num.toFixed(1)}`;
     }
-    return `${num}+`;
+    return `${num}`;
   };
 
   return <span>{formatNumber(count)}</span>;

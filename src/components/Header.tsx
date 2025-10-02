@@ -19,70 +19,67 @@ export const Header = () => {
 
           <div className="hidden items-center gap-8 md:flex">
             <Link
-              to="/fonctionnalites"
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                isActive("/fonctionnalites") ? "text-blue-500" : "text-foreground"
-              }`}
-            >
-              Fonctionnalités
-            </Link>
-            <Link
               to="/pricing"
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                isActive("/pricing") ? "text-blue-500" : "text-foreground"
+              className={`text-sm font-medium transition-colors hover:text-red-500 ${
+                isActive("/pricing") ? "text-red-500" : "text-foreground"
               }`}
             >
-              Tarifs
+              Tarifs & Nos services
             </Link>
             <Link
               to="/qui-sommes-nous"
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                isActive("/qui-sommes-nous") ? "text-blue-500" : "text-foreground"
+              className={`text-sm font-medium transition-colors hover:text-red-500 ${
+                isActive("/qui-sommes-nous") ? "text-red-500" : "text-foreground"
               }`}
             >
               Qui sommes-nous
             </Link>
             <div className="group relative">
-              <button className="flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-blue-500">
+              <button className="flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-red-500">
                 Ressources
                 <ChevronDown className="h-4 w-4" />
               </button>
-              <div className="absolute left-0 mt-2 hidden w-48 rounded-xl border border-border bg-white py-2 shadow-lg group-hover:block">
+              <div className="absolute left-0 mt-2 hidden w-56 rounded-xl border border-border bg-white py-2 shadow-lg group-hover:block">
+                <Link
+                  to="/fonctionnalites"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
+                >
+                  Fonctionnalités
+                </Link>
                 <Link
                   to="/comment-ca-marche"
-                  className="block px-4 py-2 text-sm transition-colors hover:bg-blue-50 hover:text-blue-500"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
                 >
                   Comment ça marche
                 </Link>
                 <Link
                   to="/support"
-                  className="block px-4 py-2 text-sm transition-colors hover:bg-blue-50 hover:text-blue-500"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
                 >
                   Support
                 </Link>
                 <Link
                   to="/blog"
-                  className="block px-4 py-2 text-sm transition-colors hover:bg-blue-50 hover:text-blue-500 flex items-center gap-2"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500 flex items-center gap-2"
                 >
                   Blog
                   <span className="px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">Nouveau</span>
                 </Link>
                 <Link
                   to="/securite-rgpd"
-                  className="block px-4 py-2 text-sm transition-colors hover:bg-blue-50 hover:text-blue-500"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500"
                 >
                   Sécurité & RGPD
                 </Link>
+                <div className="border-t border-border my-1"></div>
+                <Link
+                  to="/portail"
+                  className="block px-4 py-2 text-sm transition-colors hover:bg-red-50 hover:text-red-500 font-medium"
+                >
+                  Espace client
+                </Link>
               </div>
             </div>
-            <Link
-              to="/portail"
-              className={`text-sm font-medium transition-colors hover:text-blue-500 ${
-                isActive("/portail") ? "text-blue-500" : "text-foreground"
-              }`}
-            >
-              Portail
-            </Link>
           </div>
 
           <div className="hidden items-center gap-4 md:flex">
@@ -107,18 +104,11 @@ export const Header = () => {
           <div className="border-t border-border py-4 md:hidden">
             <div className="flex flex-col gap-4">
               <Link
-                to="/fonctionnalites"
-                className="text-sm font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Fonctionnalités
-              </Link>
-              <Link
                 to="/pricing"
                 className="text-sm font-medium"
                 onClick={() => setIsOpen(false)}
               >
-                Tarifs
+                Tarifs & Nos services
               </Link>
               <Link
                 to="/qui-sommes-nous"
@@ -127,42 +117,58 @@ export const Header = () => {
               >
                 Qui sommes-nous
               </Link>
-              <Link
-                to="/comment-ca-marche"
-                className="text-sm font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Comment ça marche
-              </Link>
-              <Link
-                to="/support"
-                className="text-sm font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Support
-              </Link>
-              <Link
-                to="/blog"
-                className="text-sm font-medium flex items-center gap-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Blog
-                <span className="px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">Nouveau</span>
-              </Link>
-              <Link
-                to="/securite-rgpd"
-                className="text-sm font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Sécurité & RGPD
-              </Link>
+              
+              {/* Section Ressources avec sous-menu pour mobile */}
+              <div className="border-t border-border pt-4">
+                <div className="text-sm font-semibold text-gray-500 mb-2">Ressources</div>
+                <div className="flex flex-col gap-3 pl-4">
+                  <Link
+                    to="/fonctionnalites"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Fonctionnalités
+                  </Link>
+                  <Link
+                    to="/comment-ca-marche"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Comment ça marche
+                  </Link>
+                  <Link
+                    to="/support"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Support
+                  </Link>
+                  <Link
+                    to="/blog"
+                    className="text-sm font-medium flex items-center gap-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Blog
+                    <span className="px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">Nouveau</span>
+                  </Link>
+                  <Link
+                    to="/securite-rgpd"
+                    className="text-sm font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Sécurité & RGPD
+                  </Link>
+                </div>
+              </div>
+
               <Link
                 to="/portail"
-                className="text-sm font-medium"
+                className="text-sm font-medium border-t border-border pt-4"
                 onClick={() => setIsOpen(false)}
               >
-                Portail
+                Espace client
               </Link>
+              
               <div className="flex flex-col gap-2 pt-4">
                 <Link to="/ecommerce" className="btn-outline w-full">
                   Se connecter

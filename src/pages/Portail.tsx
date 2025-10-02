@@ -57,7 +57,7 @@ const Portail = () => {
         <section className="section-y bg-gradient-to-b from-brand-50/30 to-white">
           <div className="container-px">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="eyebrow mb-4">Portail client</div>
+              <div className="eyebrow mb-4">Espace client</div>
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
                 Gérez votre standard en temps réel
               </h1>
