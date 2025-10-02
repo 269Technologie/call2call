@@ -10,7 +10,6 @@ COPY . .
 # 🔥 Nettoyage des caches avant compilation
 RUN rm -rf node_modules/.vite dist tsconfig.tsbuildinfo
 
-# Build production Vite/React
 RUN npm run build
 
 # Étape 2 : Serveur Node pour servir le build
