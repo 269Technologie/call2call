@@ -1,4 +1,4 @@
-# 📞 Call2Call — Plateforme d’IA Conversationnelle Téléphonique
+# Call2Call — Plateforme d’IA Conversationnelle Téléphonique
 
 **Call2Call** est une application web complète permettant de gérer, analyser et automatiser des appels téléphoniques via une interface moderne (frontend) et une API REST (backend Flask).
 
@@ -12,7 +12,6 @@
 
 ## ⚙️ Installation du projet
 
-### 1. Cloner le dépôt
 ```bash
 git clone https://github.com/269Technologie/call2call.git
 cd call2call
