@@ -2,7 +2,6 @@
 
 **Call2Call** est une application web complète permettant de gérer, analyser et automatiser des appels téléphoniques via une interface moderne (frontend) et une API REST (backend Flask).
 
----
 
 ## 🧭 Structure du projet
 
@@ -10,7 +9,6 @@
 - **Frontend** : interface développée en React + Tailwind (ou équivalent), issue du dossier original.
 - **Backend** : API REST en Flask, conforme à la documentation Swagger fournie.
 
----
 
 ## ⚙️ Installation du projet
 
