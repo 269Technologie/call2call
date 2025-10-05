@@ -1,5 +1,5 @@
 
-# Call2Call API — Flask + MongoDB (squelette)
+# Call2Call backend
 
 Tous les endpoints principaux sont stubbés.
 Lancez: `pip install -r requirements.txt` puis `flask --app wsgi.py run --debug`.
