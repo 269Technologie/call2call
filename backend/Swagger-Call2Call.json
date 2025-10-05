@@ -1,0 +1,818 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Call2Call API",
+    "version": "1.0.0",
+    "description": "API Backend pour Call2Call - Plateforme d'IA conversationnelle téléphonique",
+    "contact": {
+      "email": "dev@call2call.fr"
+    }
+  },
+  "host": "api.call2call.fr",
+  "basePath": "/v1",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Token d'authentification"
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Connexion utilisateur",
+        "description": "Authentifie un utilisateur avec email et mot de passe",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "entreprise@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "example": "motdepasse123"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connexion réussie",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "JWT Token d'accès"
+                },
+                "user": {
+                  "$ref": "#/definitions/User"
+                },
+                "expires_in": {
+                  "type": "integer",
+                  "description": "Durée de validité du token en secondes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Identifiants invalides"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Inscription utilisateur",
+        "description": "Crée un nouveau compte utilisateur avec essai gratuit",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "prenom": {
+                  "type": "string",
+                  "example": "Jean"
+                },
+                "nom": {
+                  "type": "string",
+                  "example": "Dupont"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "jean.dupont@entreprise.fr"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "minLength": 8
+                },
+                "entreprise": {
+                  "type": "string",
+                  "example": "Mon Entreprise SARL"
+                },
+                "plan": {
+                  "type": "string",
+                  "enum": ["Starter", "Basic", "Standard", "Pro", "Enterprise"],
+                  "example": "Standard"
+                },
+                "numero_option": {
+                  "type": "string",
+                  "enum": ["nouveau", "existant"],
+                  "example": "nouveau"
+                },
+                "numero_existant": {
+                  "type": "string",
+                  "description": "Numéro à porter (si numero_option = 'existant')"
+                }
+              },
+              "required": ["prenom", "email", "password", "entreprise", "plan"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Compte créé avec succès",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/User"
+                },
+                "access_token": {
+                  "type": "string"
+                },
+                "trial_end": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Date de fin de l'essai gratuit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides ou email déjà utilisé"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "summary": "Demande de réinitialisation de mot de passe",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": ["email"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email de réinitialisation envoyé"
+          }
+        }
+      }
+    },
+    "/calls": {
+      "get": {
+        "summary": "Récupérer l'historique des appels",
+        "description": "Retourne la liste des appels avec filtres optionnels",
+        "tags": ["Calls"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "default": 1,
+            "description": "Numéro de page"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "default": 20,
+            "description": "Nombre d'éléments par page"
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "description": "Filtrer à partir de cette date (YYYY-MM-DD)"
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "description": "Filtrer jusqu'à cette date (YYYY-MM-DD)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "enum": ["resolved", "callback", "missed"],
+            "description": "Filtrer par statut"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des appels récupérée",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "calls": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Call"
+                  }
+                },
+                "pagination": {
+                  "$ref": "#/definitions/Pagination"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calls/{call_id}": {
+      "get": {
+        "summary": "Récupérer les détails d'un appel",
+        "tags": ["Calls"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "call_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Détails de l'appel",
+            "schema": {
+              "$ref": "#/definitions/CallDetail"
+            }
+          },
+          "404": {
+            "description": "Appel non trouvé"
+          }
+        }
+      }
+    },
+    "/calls/{call_id}/transcription": {
+      "get": {
+        "summary": "Récupérer la transcription d'un appel",
+        "tags": ["Calls"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "call_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transcription de l'appel",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "transcription": {
+                  "type": "string",
+                  "description": "Transcription textuelle complète"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Résumé généré par l'IA"
+                },
+                "sentiment": {
+                  "type": "string",
+                  "enum": ["positive", "neutral", "negative"]
+                },
+                "key_points": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Points clés identifiés"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/stats": {
+      "get": {
+        "summary": "Récupérer les statistiques du dashboard",
+        "description": "Retourne les métriques pour le tableau de bord",
+        "tags": ["Dashboard"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "type": "string",
+            "enum": ["today", "yesterday", "week", "month"],
+            "default": "today"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistiques récupérées",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "calls_processed": {
+                  "type": "integer",
+                  "description": "Nombre d'appels traités"
+                },
+                "average_duration": {
+                  "type": "string",
+                  "description": "Durée moyenne des appels (format MM:SS)"
+                },
+                "resolved_calls": {
+                  "type": "integer",
+                  "description": "Nombre d'appels résolus"
+                },
+                "satisfaction_score": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Score de satisfaction moyen"
+                },
+                "calls_trend": {
+                  "type": "object",
+                  "description": "Évolution par rapport à la période précédente"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ia/config": {
+      "get": {
+        "summary": "Récupérer la configuration IA",
+        "tags": ["IA Configuration"],
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Configuration récupérée",
+            "schema": {
+              "$ref": "#/definitions/IAConfig"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Mettre à jour la configuration IA",
+        "tags": ["IA Configuration"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IAConfig"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuration mise à jour"
+          }
+        }
+      }
+    },
+    "/integrations/calendars": {
+      "get": {
+        "summary": "Récupérer les intégrations calendrier",
+        "tags": ["Integrations"],
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Liste des calendriers connectés",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CalendarIntegration"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Connecter un calendrier",
+        "tags": ["Integrations"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "enum": ["google", "microsoft", "apple"]
+                },
+                "auth_code": {
+                  "type": "string",
+                  "description": "Code d'autorisation OAuth2"
+                }
+              },
+              "required": ["provider", "auth_code"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Calendrier connecté avec succès"
+          }
+        }
+      }
+    },
+    "/billing/subscription": {
+      "get": {
+        "summary": "Récupérer les informations d'abonnement",
+        "tags": ["Billing"],
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Informations d'abonnement",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Changer de formule d'abonnement",
+        "tags": ["Billing"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_plan": {
+                  "type": "string",
+                  "enum": ["Starter", "Basic", "Standard", "Pro", "Enterprise"]
+                }
+              },
+              "required": ["new_plan"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Abonnement mis à jour"
+          }
+        }
+      }
+    },
+    "/billing/invoices": {
+      "get": {
+        "summary": "Récupérer l'historique des factures",
+        "tags": ["Billing"],
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Liste des factures",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Invoice"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support/tickets": {
+      "post": {
+        "summary": "Créer un ticket de support",
+        "tags": ["Support"],
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "type": "string",
+                  "enum": ["technical", "billing", "configuration", "integration", "other"]
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Description détaillée du problème"
+                },
+                "priority": {
+                  "type": "string",
+                  "enum": ["low", "medium", "high", "urgent"],
+                  "default": "medium"
+                }
+              },
+              "required": ["subject", "message"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Ticket créé avec succès",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ticket_id": {
+                  "type": "string"
+                },
+                "estimated_response_time": {
+                  "type": "string",
+                  "description": "Temps de réponse estimé"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID unique de l'utilisateur"
+        },
+        "prenom": {
+          "type": "string"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "entreprise": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string",
+          "enum": ["Starter", "Basic", "Standard", "Pro", "Enterprise"]
+        },
+        "trial_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Call": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "caller_name": {
+          "type": "string"
+        },
+        "caller_number": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string",
+          "description": "Durée formatée (MM:SS)"
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": ["positive", "neutral", "negative"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["resolved", "callback", "missed"]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CallDetail": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Call"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "transcription_available": {
+              "type": "boolean"
+            },
+            "summary_available": {
+              "type": "boolean"
+            },
+            "appointment_created": {
+              "type": "boolean"
+            },
+            "transfer_reason": {
+              "type": "string",
+              "description": "Raison du transfert vers un humain"
+            }
+          }
+        }
+      ]
+    },
+    "IAConfig": {
+      "type": "object",
+      "properties": {
+        "welcome_message": {
+          "type": "string",
+          "description": "Message d'accueil personnalisé"
+        },
+        "business_hours": {
+          "type": "object",
+          "properties": {
+            "monday_friday": {
+              "type": "string",
+              "example": "9:00-18:00"
+            },
+            "saturday": {
+              "type": "string",
+              "example": "closed"
+            },
+            "sunday": {
+              "type": "string",
+              "example": "closed"
+            }
+          }
+        },
+        "transfer_rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string",
+                "enum": ["keyword", "outside_hours", "emergency"]
+              },
+              "value": {
+                "type": "string",
+                "description": "Mot-clé ou condition spécifique"
+              },
+              "enabled": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "faq": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "answer": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CalendarIntegration": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["google", "microsoft", "apple"]
+        },
+        "email": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["connected", "disconnected", "error"]
+        },
+        "last_sync": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Subscription": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "trial", "cancelled", "past_due"]
+        },
+        "current_period_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "concurrent_calls": {
+          "type": "integer"
+        },
+        "languages": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "Invoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "currency": {
+          "type": "string",
+          "default": "EUR"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["paid", "pending", "failed"]
+        },
+        "period_start": {
+          "type": "string",
+          "format": "date"
+        },
+        "period_end": {
+          "type": "string",
+          "format": "date"
+        },
+        "pdf_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "Pagination": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
